@@ -1,0 +1,53 @@
+{
+	"name": "PLETLBaselineComputeDailyProductRevenueMonthly",
+	"properties": {
+		"activities": [
+			{
+				"name": "ForEachETLComputeDailyRevenueMonthly",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.order_months",
+						"type": "Expression"
+					},
+					"isSequential": false,
+					"batchCount": 4,
+					"activities": [
+						{
+							"name": "PLETL Compute Daily Revenue Monthly",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "PLComputeDailyPorductRevenueMonthly",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true,
+								"parameters": {
+									"order_month": {
+										"value": "@item()",
+										"type": "Expression"
+									}
+								}
+							}
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"order_months": {
+				"type": "array"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-04-30T12:17:00Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,18 @@
+{
+	"name": "AutoResolveRetailIR",
+	"properties": {
+		"type": "Managed",
+		"typeProperties": {
+			"computeProperties": {
+				"location": "AutoResolve",
+				"dataFlowProperties": {
+					"computeType": "General",
+					"coreCount": 8,
+					"timeToLive": 30,
+					"cleanup": false,
+					"customProperties": []
+				}
+			}
+		}
+	}
+}

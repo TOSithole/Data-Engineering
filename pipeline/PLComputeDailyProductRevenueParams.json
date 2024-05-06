@@ -1,0 +1,48 @@
+{
+	"name": "PLComputeDailyProductRevenueParams",
+	"properties": {
+		"activities": [
+			{
+				"name": "DFComputeDailyProductRevenue",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "ComputeDailyProductRevenue",
+						"type": "DataFlowReference",
+						"parameters": {
+							"order_month": {
+								"value": "'@{pipeline().parameters.order_month}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveRetailIR",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"parameters": {
+			"order_month": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "AzureSQLDemo"
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-05-04T13:47:23Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

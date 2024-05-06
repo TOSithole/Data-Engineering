@@ -1,0 +1,54 @@
+{
+	"name": "PLComputeDailyPorductRevenueMonthly",
+	"properties": {
+		"activities": [
+			{
+				"name": "DF Compute Daily Revenue Monthly",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DFComputeDailyProductRevenueParams",
+						"type": "DataFlowReference",
+						"parameters": {
+							"order_month": {
+								"value": "'@{pipeline().parameters.order_month}'",
+								"type": "Expression"
+							}
+						},
+						"datasetParameters": {
+							"dailyProductRevenueParquet": {
+								"order_month": {
+									"value": "@pipeline().parameters.order_month",
+									"type": "Expression"
+								}
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveRetailIR",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"parameters": {
+			"order_month": {
+				"type": "string",
+				"defaultValue": "201307"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-04-30T09:27:59Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

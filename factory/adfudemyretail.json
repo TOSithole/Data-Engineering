@@ -1,0 +1,9 @@
+{
+	"name": "adfudemyretail",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "4f99771b-fe49-492f-acd4-71c2b5268ed4",
+		"tenantId": "6ee1099a-3111-4c15-bf0d-de4403fb108d"
+	}
+}

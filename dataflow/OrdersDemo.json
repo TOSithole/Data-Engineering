@@ -1,0 +1,45 @@
+{
+	"name": "OrdersDemo",
+	"properties": {
+		"folder": {
+			"name": "AzureSQLDemo"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "RetailOrders",
+						"type": "DatasetReference"
+					},
+					"name": "AzureSQLOrders"
+				}
+			],
+			"sinks": [
+				{
+					"name": "OrdersCache"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          order_id as integer,",
+				"          order_date as date,",
+				"          order_customer_id as integer,",
+				"          order_status as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> AzureSQLOrders",
+				"AzureSQLOrders sink(validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     store: 'cache',",
+				"     format: 'inline',",
+				"     output: false,",
+				"     saveOrder: 1) ~> OrdersCache"
+			]
+		}
+	}
+}

@@ -1,0 +1,35 @@
+{
+	"name": "AzureSynapseAnalyticsDailyProductRevenue",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSynapseAnalyticsSWUdemyRetail",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "AzureSynapseRetail"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "order_date",
+				"type": "date"
+			},
+			{
+				"name": "order_item_product_id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "revenue",
+				"type": "float",
+				"precision": 15
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "daily_product_revenue"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
