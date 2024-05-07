@@ -7,17 +7,17 @@ Repository for data engineer projects.
 <ul>I used Azure Data Factory, Azure Data Studio, Azure SQL Database, Azure Synapse Analytics, SQL and Azure Blob Storage.</ul>
 
 <h2>Dataset</h2>
-<ul>I downloaded the dataset from Durga's(Udemy Lecturer) repository, https://github.com/dgadiraju/data/tree/master/retail_db, I used the Orders and Order Items folder, the data is comma delimitied.</ul>
-<ul>In the above folder I also refered to the create_db_tables_og.sql script for the schema.</ul>
+<ul>I downloaded the dataset from Durga's(Udemy Lecturer) repository, https://github.com/dgadiraju/data/tree/master/retail_db, I used the Orders and Order Items folder, the data is comma delimited.</ul>
+<ul>In the above folder I also referred to the create_db_tables_og.sql script for the schema.</ul>
 
 <h2>Data Flows</h2>
 <h3>DFFileFormatConverterOrders</h3>
-<ul>This data flow has two activitites.</ul>
+<ul>This data flow has two activities.</ul>
 <ul>The first activity is the data source, it reads data from the Orders table that is stored in Azure Blob Storage and sends it to the sink.</ul>
 <ul>The second/last activity receives the data from the incoming stream(Orders), saves the data to OrdersParquet(data set) in Azure Blob storage in Parquet format.</ul>
 
 <h3>DFFileFormatConverterOrderItems</h3>
-<ul>This data flow has two activitites.</ul>
+<ul>This data flow has two activities.</ul>
 <ul>The first activity is the data source, it reads data from the OrderItems table that is stored in Azure Blob Storage and sends it to the sink.</ul>
 <ul>The second/last activity receives the data from the incoming stream(OrderItems), saves the data to OrderItemsParquet(data set) in Azure Blob storage.</ul>
 
@@ -45,5 +45,5 @@ Repository for data engineer projects.
 <h3>PLComputeDailyProductRevenueParams</h3>
 <ul>This pipeline has one data flow activity.</ul>
 <ul>It is used to execute the ComputeDailyProductRevenue data flow.</ul>
-<ul>It uses the customermised IR(Integrated Runtime) with a time to live of 30min to reduce wait time of compute when executing and testing.</ul>
+<ul>It uses the customized IR(Integrated Runtime) with a time to live of 30min to reduce wait time of compute when executing and testing.</ul>
 <ul>It has one parameter that will be used to specify the order month(Year and month yyyy-MM) that will be used by the data flow to filter the data.</ul>
