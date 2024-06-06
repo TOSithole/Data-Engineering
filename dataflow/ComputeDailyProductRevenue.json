@@ -8,17 +8,9 @@
 		"typeProperties": {
 			"sources": [
 				{
-					"dataset": {
-						"referenceName": "RetailOrders",
-						"type": "DatasetReference"
-					},
 					"name": "AzureSQLOrders"
 				},
 				{
-					"dataset": {
-						"referenceName": "RetailOrderItems",
-						"type": "DatasetReference"
-					},
 					"name": "AzureSQLOrderItems"
 				}
 			],
@@ -50,10 +42,7 @@
 				"          order_status as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     query: (\"SELECT * FROM orders WHERE order_date LIKE '{$order_month}%' AND order_status IN ('COMPLETE', 'CLOSED')\"),",
-				"     format: 'query') ~> AzureSQLOrders",
+				"     validateSchema: false) ~> AzureSQLOrders",
 				"source(output(",
 				"          order_item_id as integer,",
 				"          order_item_order_id as integer,",
@@ -63,9 +52,7 @@
 				"          order_item_product_price as double",
 				"     ),",
 				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> AzureSQLOrderItems",
+				"     validateSchema: false) ~> AzureSQLOrderItems",
 				"AzureSQLOrders, AzureSQLOrderItems join(order_id == order_item_order_id,",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
