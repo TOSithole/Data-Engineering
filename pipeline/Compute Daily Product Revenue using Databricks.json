@@ -1,0 +1,232 @@
+{
+	"name": "Compute Daily Product Revenue using Databricks",
+	"properties": {
+		"activities": [
+			{
+				"name": "Cleanup Database and Datasets",
+				"type": "DatabricksNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Users/tosithole826@gmail.com/ELT Data Pipeline for Daily Product Revenue/01 Cleanup Database and Datasets",
+					"baseParameters": {
+						"bronze_base_dir": {
+							"value": "@pipeline().parameters.bronze_base_dir",
+							"type": "Expression"
+						},
+						"gold_base_dir": {
+							"value": "@pipeline().parameters.gold_base_dir",
+							"type": "Expression"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureDatabricksRetail",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "File Format Converter - Orders",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "Cleanup Database and Datasets",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Users/tosithole826@gmail.com/ELT Data Pipeline for Daily Product Revenue/02 File Format Converter",
+					"baseParameters": {
+						"src_base_dir": {
+							"value": "@pipeline().parameters.src_base_dir",
+							"type": "Expression"
+						},
+						"bronze_base_dir": {
+							"value": "@pipeline().parameters.bronze_base_dir",
+							"type": "Expression"
+						},
+						"ds": "orders"
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureDatabricksRetail",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "File Format Converter - Order items",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "Cleanup Database and Datasets",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Users/tosithole826@gmail.com/ELT Data Pipeline for Daily Product Revenue/02 File Format Converter",
+					"baseParameters": {
+						"src_base_dir": {
+							"value": "@pipeline().parameters.src_base_dir",
+							"type": "Expression"
+						},
+						"bronze_base_dir": {
+							"value": "@pipeline().parameters.bronze_base_dir",
+							"type": "Expression"
+						},
+						"ds": "order_items"
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureDatabricksRetail",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Create Spark SQL Tables - Orders",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "File Format Converter - Orders",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Users/tosithole826@gmail.com/ELT Data Pipeline for Daily Product Revenue/03 Create Spark SQL Tables",
+					"baseParameters": {
+						"bronze_base_dir": {
+							"value": "@pipeline().parameters.bronze_base_dir",
+							"type": "Expression"
+						},
+						"table_name": "orders"
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureDatabricksRetail",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Create Spark SQL Tables - Order items",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "File Format Converter - Order items",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Users/tosithole826@gmail.com/ELT Data Pipeline for Daily Product Revenue/03 Create Spark SQL Tables",
+					"baseParameters": {
+						"bronze_base_dir": {
+							"value": "@pipeline().parameters.bronze_base_dir",
+							"type": "Expression"
+						},
+						"table_name": "order_items"
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureDatabricksRetail",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Daily Product Revenue",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "Create Spark SQL Tables - Orders",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Create Spark SQL Tables - Order items",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Users/tosithole826@gmail.com/ELT Data Pipeline for Daily Product Revenue/04 Daily Product Revenue",
+					"baseParameters": {
+						"gold_base_dir": {
+							"value": "@pipeline().parameters.gold_base_dir",
+							"type": "Expression"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureDatabricksRetail",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"parameters": {
+			"src_base_dir": {
+				"type": "string"
+			},
+			"gold_base_dir": {
+				"type": "string"
+			},
+			"bronze_base_dir": {
+				"type": "string"
+			}
+		},
+		"annotations": []
+	}
+}
