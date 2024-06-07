@@ -227,6 +227,9 @@
 				"type": "string"
 			}
 		},
+		"folder": {
+			"name": "Databricks pipeline"
+		},
 		"annotations": []
 	}
 }
